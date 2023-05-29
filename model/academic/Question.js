@@ -30,7 +30,7 @@ const questionSchema = new Schema(
         },
         isCorrect: {
             type: Boolean,
-            required: true
+            default: false
         },
         createdBy: {
             type: Schema.Types.ObjectId,
