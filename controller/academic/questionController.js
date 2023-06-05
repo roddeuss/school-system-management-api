@@ -62,7 +62,7 @@ exports.getSingleQuestions = AsyncHandler(async(req, res) => {
 exports.updateQuestions = AsyncHandler(async(req, res) => {
     const {question, optionA, optionB, optionC, optionD, correctAnswer} = req.body;
     //check the name exists
-    const questionFound = await Question.findOne({name});
+    const questionFound = await Question.findOne({question});
     if(questionFound) {
         throw new Error('Question already exists')
     }

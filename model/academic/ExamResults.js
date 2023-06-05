@@ -2,17 +2,15 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
-const examResultSchema = new Schema(
+const examResultsSchema = new Schema(
     {
-        student: {
-            type: Schema.Types.ObjectId,
-            ref: "Student",
+        studentID: {
+            type: String,
             required: true,
         },
         exam: {
             type: Schema.Types.ObjectId,
             ref: "Exam",
-            required: true,
         },
         grade: {
             type: Number,
@@ -27,24 +25,21 @@ const examResultSchema = new Schema(
             required: true,
             default: 50
         },
+        answeredQuestions: [
+            {
+                type: Object
+            },
+        ],
         status: {
                 type: String,
                 requried: true,
-                enum: ["failed", "passed"],
-                default: "failed"
+                enum: ["Pass", "Fail"],
+                default: "Fail"
         },
-        remark: {
+        remarks: {
             type: String,
             required: true,
-            enum: ["excelent", "good", "poor"]
-        },
-        position: {
-            type: Number,
-            required: true
-        },
-        subject: {
-            type: Schema.Types.ObjectId,
-            ref: "Subject"
+            enum: ["Excellent", "Very Good", "Good", "Poor"]
         },
         classLevel: {
             type: Schema.Types.ObjectId,
@@ -68,6 +63,6 @@ const examResultSchema = new Schema(
     }
 )
 
-const ExamResult = mongoose.model("ExamResult", examResultSchema);
+const ExamResults = mongoose.model("ExamResult", examResultsSchema);
 
-module.exports = ExamResult;
+module.exports = ExamResults;
