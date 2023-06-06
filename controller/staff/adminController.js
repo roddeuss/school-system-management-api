@@ -52,13 +52,8 @@ exports.loginAdminController = AsyncHandler(async (req, res) => {
     });
 
 exports.allAdminController = AsyncHandler(async (req, res) => {
-    const admins = await Admin.find();
-    res.status(200).json({
-        status: 'success',
-        message: 'Admin fetched successfully',
-        data: admins
-    })
-})
+    res.status(200).json(res.results);
+});
 
 exports.getAdminProfileController = AsyncHandler(async (req, res) => {
     const admin = await Admin.findById(req.userAuth._id).select("-password  -createdAt -updatedAt")

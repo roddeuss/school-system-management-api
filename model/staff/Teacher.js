@@ -68,10 +68,13 @@ const TeacherSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Exam",
         }],
+        questions: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Question",
+        }],
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Admin",
-            // required: true,
         },
         academicTerm: {
             type: String,

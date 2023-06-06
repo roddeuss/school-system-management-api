@@ -59,54 +59,7 @@ exports.loginTeacher = AsyncHandler(async(req, res) => {
 
 // get all teachers
 exports.getAllTeachersAdmin = AsyncHandler(async (req, res) => {
-    // query teacher find
-    let TeacherQuery = Teacher.find();
-
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 2;
-    const skip = (page - 1) * limit;
-    const total = await Teacher.countDocuments();
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-
-    // filtering a name teacher
-    if (req.query.name) {
-        TeacherQuery = TeacherQuery.find({
-            name: { $regex: req.query.name, $options: "i" },
-        });
-    }
-
-    // pagination results
-    const pagination = {};
-    if (endIndex < total) {
-        pagination.next = {
-            page: page + 1,
-            limit,
-        };
-    }
-
-    // add prev
-    if (startIndex > 0) {
-        pagination.prev = {
-            page: page - 1,
-            limit,
-        };
-    }
-
-    // execute query
-    const teachers = await TeacherQuery
-        .skip(skip)
-        .limit(limit)
-        .exec(); // add .exec() to execute the query
-
-    res.status(200).json({
-        status: "success",
-        message: "Teacher fetched successfully",
-        total: total,
-        pagination: pagination,
-        results: teachers.length,
-        data: teachers,
-    });
+    res.status(200).json(res.results);
 });
 
 
