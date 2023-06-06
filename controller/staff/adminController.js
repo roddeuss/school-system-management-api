@@ -14,7 +14,6 @@ exports.registerAdminController = AsyncHandler(async (req, res) => {
         if(adminFound) {
             throw new Error("Admin Exists")
         }
-
         //register
         const user = await Admin.create({
             name,
@@ -64,6 +63,12 @@ exports.allAdminController = AsyncHandler(async (req, res) => {
 exports.getAdminProfileController = AsyncHandler(async (req, res) => {
     const admin = await Admin.findById(req.userAuth._id).select("-password  -createdAt -updatedAt")
     .populate("academicYears")
+    .populate('academicTerm')
+    .populate('program')
+    .populate('yearGroup')
+    .populate('classLevel')
+    .populate('teacher')
+    .populate('student')
     if(!admin) {
         throw new Error('Admin not found')
     } else {

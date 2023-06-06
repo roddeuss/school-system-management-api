@@ -47,3 +47,28 @@ exports.checkExamResult = AsyncHandler(async (req, res) => {
         student: studentFound,
     });
 });
+
+
+// admin publish exam results
+exports.adminToggleExamResults = AsyncHandler(async(req, res) => {
+    //find the exam
+    const examResults = await ExamResults.findById(req.params.id)
+    if(!examResults) {
+        throw new Error('Exam result no found!')
+    }
+    const publicResults = await ExamResults.findByIdAndUpdate(
+        req.params.id, 
+        {
+        isPublished: req.body.publish,
+        }
+        , 
+        {
+        new: true,
+        }
+    );
+    res.status(200).json({
+        status: 'success',
+        message: 'Exam Results Updated',
+        data: publicResults
+    })
+})

@@ -1,4 +1,5 @@
 const Student = require("../../model/academic/Student");
+const Admin = require("../../model/staff/Admin");
 const Exam = require("../../model/academic/Exam");
 const ExamResults = require("../../model/academic/ExamResults");
 const AsyncHandler = require("express-async-handler");
@@ -8,6 +9,12 @@ const generateToken = require("../../utils/generateToken");
 // create admin register student
 exports.adminRegisterStudent = AsyncHandler(async(req, res) => {
     const {name, email, password} = req.body;
+
+    //find the admin
+    const adminFound = await Admin.findById(req.userAuth._id);
+    if(!adminFound) {
+        throw new Error('Admin not found')
+    }
 
     const student = await Student.findOne({email});
     if(student) {
@@ -19,6 +26,8 @@ exports.adminRegisterStudent = AsyncHandler(async(req, res) => {
         email,
         password: await hashPassword(password)
     });
+    adminFound.student.push(studentRegistered?._id);
+    await adminFound.save()
     //send teacher data
     res.status(201).json({
         status : 'success',
